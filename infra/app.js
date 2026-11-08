@@ -35,7 +35,7 @@ app.use(session({
 }));
 
 // Static files
-app.use(express.static(path.join(__dirname, '../webapp/public'), { index: 'home.html' }));
+app.use(express.static(path.join(__dirname, '../frontend/public'), { index: 'home.html' }));
 
 // Routes
 const authRoutes = require('../webapp/routes/auth');
