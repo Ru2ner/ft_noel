@@ -17,5 +17,5 @@ export async function apiRequest(path, options = {}) {
 
 export function openPairingSocket() {
   const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-  return new WebSocket(`${protocol}//${window.location.host}`);
+  return new WebSocket(`${protocol}//${window.location.host}/socket`);
 }
