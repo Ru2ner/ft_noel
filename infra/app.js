@@ -59,7 +59,7 @@ app.get('/health', (req, res) => {
 const server = http.createServer(app);
 
 // Create WebSocket server
-const wss = new WebSocketServer({ server });
+const wss = new WebSocketServer({ server, path: '/socket' });
 
 // Connect WebSocket to pairing logic
 pairing.attachWebSocket(wss);
