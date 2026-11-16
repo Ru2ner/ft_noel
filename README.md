@@ -65,12 +65,15 @@ Le serveur Express reste le backend : il sert le dossier compilé `frontend/dist
 Dans un terminal :
 
 ```sh
+npm start
+
+# Dans un second terminal
 cd frontend
 npm install
 npm run dev
 ```
 
-Le serveur Vite démarre sur le port 5173. Pour que les appels API et le WebSocket fonctionnent en développement, utilise le serveur Express (port 3000) avec un proxy Vite ou lance l'application compilée comme indiqué ci-dessous.
+Le serveur Vite démarre sur le port 5173. Dans un second terminal, démarre Express sur le port 3000 avec `npm start`. Vite relaie automatiquement les appels API et le WebSocket vers Express.
 
 ### Compiler et lancer avec Express
 
@@ -99,6 +102,6 @@ Le Dockerfile installe les dépendances frontend, compile Vue, puis l'image de p
 - `POST /auth/signup`, `POST /auth/login`, `GET /auth/me`, `POST /auth/logout`
 - `POST /pairing/start`, `GET /badge/status`, `POST /badge/unlink`
 - `POST /badge-login/start`, `POST /badge-login/confirm`
-- WebSocket sur la même origine HTTP
+- WebSocket sur `/socket`
 
 Les anciennes pages HTML peuvent rester dans `frontend/public/` pendant la transition ; Express ne les sert plus directement une fois la version Vue compilée.
