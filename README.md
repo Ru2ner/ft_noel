@@ -53,3 +53,52 @@ newgrp docker
 
 .ENV:
 token et secret a set et explik
+
+
+## Frontend Vue
+
+Le frontend est maintenant une application **Vue 3 + Vite**, située dans `frontend/`.
+Le serveur Express reste le backend : il sert le dossier compilé `frontend/dist/` et conserve les routes d'authentification, de badge NFC et le WebSocket.
+
+### Lancer en développement
+
+Dans un terminal :
+
+```sh
+cd frontend
+npm install
+npm run dev
+```
+
+Le serveur Vite démarre sur le port 5173. Pour que les appels API et le WebSocket fonctionnent en développement, utilise le serveur Express (port 3000) avec un proxy Vite ou lance l'application compilée comme indiqué ci-dessous.
+
+### Compiler et lancer avec Express
+
+Depuis la racine du dépôt :
+
+```sh
+npm ci
+npm run build
+npm start
+```
+
+Puis ouvre http://localhost:3000.
+
+### Avec Docker
+
+La commande habituelle reste :
+
+```sh
+make
+```
+
+Le Dockerfile installe les dépendances frontend, compile Vue, puis l'image de production sert le résultat compilé avec Express.
+
+### Routes backend utilisées par Vue
+
+- `POST /auth/signup`, `POST /auth/login`, `GET /auth/me`, `POST /auth/logout`
+- `POST /pairing/start`, `GET /badge/status`, `POST /badge/unlink`
+- `POST /badge-login/start`, `POST /badge-login/confirm`
+- WebSocket sur la même origine HTTP
+
+Les anciennes pages HTML peuvent rester dans `frontend/public/` pendant la transition ; Express ne les sert plus directement une fois la version Vue compilée.
