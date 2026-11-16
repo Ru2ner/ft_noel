@@ -34,8 +34,9 @@ app.use(session({
     }
 }));
 
-// Static files
-app.use(express.static(path.join(__dirname, '../frontend/public'), { index: 'home.html' }));
+// Serve the compiled Vue application. Vite writes production assets to frontend/dist.
+const frontendDist = path.join(__dirname, '../frontend/dist');
+app.use(express.static(frontendDist));
 
 // Routes
 const authRoutes = require('../webapp/routes/auth');
@@ -62,6 +63,15 @@ const wss = new WebSocketServer({ server });
 
 // Connect WebSocket to pairing logic
 pairing.attachWebSocket(wss);
+
+// Vue Router uses history mode: serve index.html for frontend routes only.
+app.use((req, res, next) => {
+    if (req.method !== 'GET' || !req.accepts('html')) return next();
+    if (/^\/(auth|badge|pairing|badge-login|health)(\/|$)/.test(req.path)) return next();
+    res.sendFile(path.join(frontendDist, 'index.html'), (err) => {
+        if (err) next(err);
+    });
+});
 
 // Start server
 server.listen(PORT, HOST, () => {
