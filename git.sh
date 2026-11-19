@@ -1,1 +1,1 @@
-cp -r ../ft_noel/* ../ft_transcendence/.
+cp -r ../ft_noel/frontend ../ft_transcendence/.

@@ -53,18 +53,20 @@ import { computed, ref } from 'vue';
 import { RouterLink } from 'vue-router';
 
 const tickets = [
-  { name: 'Trèfle Chance', title: 'TRÈFLE\nCHANCE', price: '5 €', group: '5 €', symbol: '♣', color: 'mini-ticket-green', description: 'Ticket porte-bonheur' },
   { name: 'Étoile Filante', title: 'ÉTOILE\nFILANTE', price: '5 €', group: '5 €', symbol: '✦', color: 'mini-ticket-blue', description: 'À vous la chance' },
-  { name: 'Trésor Doré', title: 'TRÉSOR\nDORÉ', price: '10 €', group: '10 €', symbol: '★', color: 'mini-ticket-gold', description: 'Le ticket à la une' },
   { name: 'Diamant Rouge', title: 'DIAMANT\nROUGE', price: '10 €', group: '10 €', symbol: '♦', color: 'mini-ticket-red', description: 'Un éclat de fortune' },
   { name: 'Royale', title: 'ROYALE', price: '20 €', group: '20 €', symbol: '♛', color: 'mini-ticket-purple', description: 'Le grand format' }
 ];
+
+
 const selected = ref(tickets[2]);
 const ticketGroups = computed(() => [
-  { price: '5 €', label: 'Découverte', tickets: tickets.filter(t => t.group === '5 €') },
+  { price: '5 €', label: 'Débutant', tickets: tickets.filter(t => t.group === '5 €') },
   { price: '10 €', label: 'Classique', tickets: tickets.filter(t => t.group === '10 €') },
-  { price: '20 €', label: 'Prestige', tickets: tickets.filter(t => t.group === '20 €') }
+  { price: '20 €', label: 'Chaperonné', tickets: tickets.filter(t => t.group === '20 €') }
 ]);
+
+
 const leaderboard = [
   { rank: '🥇', name: 'LuckyStar', score: '12 840 pts' },
   { rank: '🥈', name: 'GoldenTouch', score: '9 620 pts' },

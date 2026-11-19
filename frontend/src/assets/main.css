@@ -711,7 +711,6 @@ body > p {
 }
 
 
-/* Base layout for the Vue application */
 body { padding: 28px clamp(14px, 3vw, 40px) 48px; }
 #app { width: 100%; }
 .auth-page, .content-panel {
