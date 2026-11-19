@@ -1,10 +1,6 @@
 <template>
   <div class="game-page scratch-page">
     <div class="game-shell">
-      <header class="game-header">
-        <div><h1 class="game-brand">Scratch Club</h1><p class="game-tagline">Choisissez votre ticket porte-bonheur.</p></div>
-        <RouterLink to="/">← Retour à l'accueil</RouterLink>
-      </header>
       <div class="game-layout">
         <aside class="game-panel leaderboard">
           <h2 class="panel-heading">🏆 Classement</h2>
@@ -17,20 +13,8 @@
           <p class="game-eyebrow">Ticket à la une</p>
           <h2 class="game-title">{{ selected.name }}</h2>
           <div class="scratch-stage">
-            <div class="scratch-ticket">
-              <div class="ticket-topline"><span>SCRATCH CLUB</span><span>N° 008421</span></div>
-              <div class="ticket-title">{{ selected.title }}</div>
-              <div class="ticket-stars">✦　✧　✦</div>
-              <div class="scratch-spots"><span>?</span><span>?</span><span>?</span></div>
-              <div class="ticket-bottom"><span>Maquette visuelle uniquement</span><strong>{{ selected.price }}</strong></div>
-            </div>
           </div>
           <p class="ticket-caption">Sélectionne un ticket dans la liste à droite.</p>
-          <div class="game-metrics">
-            <div class="metric"><strong>{{ selected.price }}</strong><span>Prix fictif</span></div>
-            <div class="metric"><strong>{{ tickets.length }}</strong><span>Jeux présentés</span></div>
-            <div class="metric"><strong>—</strong><span>Gain potentiel</span></div>
-          </div>
         </section>
         <aside class="game-panel game-picker">
           <h2 class="panel-heading">🎟 Choisir un jeu</h2>
