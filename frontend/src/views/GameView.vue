@@ -168,12 +168,18 @@ const leaderboard = [
 .foil-label { padding: 7px 15px; border: 2px dashed rgba(90,80,65,.55); border-radius: 5px; font-size: .9rem; font-weight: 900; letter-spacing: .16em; }
 .foil-stars { font-size: 1.4rem; letter-spacing: .25em; }
 @keyframes scratch-away {
-  0% { clip-path: inset(0 0 0 0); transform: translate(0, 0) rotate(0); }
-  18% { transform: translate(2px, -2px) rotate(-1deg); }
-  38% { clip-path: inset(0 0 0 24%); transform: translate(-2px, 1px) rotate(1deg); }
-  62% { clip-path: inset(0 0 0 57%); transform: translate(2px, -1px) rotate(-1deg); }
-  82% { clip-path: inset(0 0 0 82%); transform: translate(-1px, 1px); }
-  100% { clip-path: inset(0 0 0 100%); opacity: 0; }
+  0% {
+    clip-path: circle(0% at 50% 50%);
+    transform: scale(1);
+    opacity: 1;
+  }
+  20% { transform: scale(1.015) rotate(-.5deg); }
+  55% { transform: scale(1.01) rotate(.4deg); }
+  100% {
+    clip-path: circle(150% at 50% 50%);
+    transform: scale(1.02);
+    opacity: 0;
+  }
 }
 .ticket-level a.is-selected { border-color: var(--caramel); background: var(--cream-deep); }
 @media (prefers-reduced-motion: reduce) {
