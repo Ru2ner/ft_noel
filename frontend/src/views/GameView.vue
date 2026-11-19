@@ -16,7 +16,7 @@
           <div class="scratch-stage">
             <div class="scratch-ticket">
               <img class="ticket-art ticket-size" :src="selected.image" :alt="'Ticket à gratter ' + selected.name">
-              <div class="revealed-prize" :class="{ 'is-visible': isRevealed }">
+              <div v-if="isRevealed" class="revealed-prize">
                 <strong>{{ selected.gain }}</strong>
                 <span>POINTS</span>
               </div>
@@ -68,26 +68,26 @@ import ticket2 from '../assets/tickets/ticket_2.JPG';
 import ticket3 from '../assets/tickets/ticket_3.JPG';
 
 const tickets = [
-  { name: 'Étoile Filante', price: '5 €', group: '5 €', image: ticket1, gain: '10', description: 'À vous la chance', message: 'Bravo ! Vous gagnez 10 points fictifs.' },
-  { name: 'Diamant Rouge', price: '10 €', group: '10 €', image: ticket2, gain: '25', description: 'Un éclat de fortune', message: 'Magnifique ! Vous gagnez 25 points fictifs.' },
-  { name: 'Royale', price: '20 €', group: '20 €', image: ticket3, gain: '50', description: 'Le grand format', message: 'Royal ! Vous gagnez 50 points fictifs.' }
+  { name: 'Étoile Filante', price: '5 €', group: '5 €', qteLength: 4, image: ticket1, gain: '10', description: 'À vous la chance', message: 'Bravo ! Vous gagnez 10 points fictifs.' },
+  { name: 'Diamant Rouge', price: '10 €', group: '10 €', qteLength: 7, image: ticket2, gain: '25', description: 'Un éclat de fortune', message: 'Magnifique ! Vous gagnez 25 points fictifs.' },
+  { name: 'Royale', price: '20 €', group: '20 €', qteLength: 10, image: ticket3, gain: '50', description: 'Le grand format', message: 'Royal ! Vous gagnez 50 points fictifs.' }
 ];
 
 const selected = ref(tickets[2]);
 const isScratching = ref(false);
 const isRevealed = ref(false);
 const qteKeys = ['A', 'S', 'D', 'F', 'J', 'K', 'L'];
-const qteSequence = ref(makeSequence());
+const qteSequence = ref(makeSequence(selected.value.qteLength));
 const currentStep = ref(0);
 const qteError = ref(false);
 const scratchProgress = computed(() => Math.round((currentStep.value / qteSequence.value.length) * 100));
 
-function makeSequence() {
-  return Array.from({ length: 6 }, () => qteKeys[Math.floor(Math.random() * qteKeys.length)]);
+function makeSequence(length) {
+  return Array.from({ length }, () => qteKeys[Math.floor(Math.random() * qteKeys.length)]);
 }
 
 function resetQte() {
-  qteSequence.value = makeSequence();
+  qteSequence.value = makeSequence(selected.value.qteLength);
   currentStep.value = 0;
   qteError.value = false;
   isScratching.value = false;
