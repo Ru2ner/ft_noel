@@ -25,6 +25,7 @@
               <div
                 class="scratch-foil"
                 :class="{ 'is-scratching': isScratching, 'is-revealed': isRevealed }"
+                :style="{ '--scratch-angle': scratchAngle + 'deg' }"
                 @animationend="finishScratch"
               >
                 <span class="foil-label">GRATTEZ ICI</span>
@@ -69,9 +70,12 @@ const tickets = [
 const selected = ref(tickets[2]);
 const isScratching = ref(false);
 const isRevealed = ref(false);
+const scratchAngle = ref(0);
 
 async function selectTicket(ticket) {
   selected.value = ticket;
+  // Chaque grattage part dans une direction différente.
+  scratchAngle.value = [0, 90, 180, 270][Math.floor(Math.random() * 4)] + (Math.random() * 24 - 12);
   isScratching.value = false;
   isRevealed.value = false;
   await nextTick();
@@ -169,16 +173,23 @@ const leaderboard = [
 .foil-stars { font-size: 1.4rem; letter-spacing: .25em; }
 @keyframes scratch-away {
   0% {
-    clip-path: circle(0% at 50% 50%);
-    transform: scale(1);
+    clip-path: polygon(0 0, 100% 0, 100% 18%, 100% 36%, 100% 54%, 100% 72%, 100% 100%, 0 100%, 0 72%, 0 36%);
     opacity: 1;
+    transform: rotate(var(--scratch-angle)) scale(1);
   }
-  20% { transform: scale(1.015) rotate(-.5deg); }
-  55% { transform: scale(1.01) rotate(.4deg); }
+  18% {
+    clip-path: polygon(0 0, 78% 0, 86% 14%, 72% 27%, 88% 43%, 70% 59%, 83% 78%, 0 100%, 12% 70%, 0 35%);
+  }
+  42% {
+    clip-path: polygon(0 0, 53% 0, 63% 13%, 47% 29%, 66% 45%, 48% 62%, 61% 82%, 0 100%, 10% 69%, 0 34%);
+  }
+  68% {
+    clip-path: polygon(0 0, 27% 0, 39% 15%, 22% 31%, 42% 47%, 24% 64%, 36% 84%, 0 100%, 9% 70%, 0 33%);
+  }
   100% {
-    clip-path: circle(150% at 50% 50%);
-    transform: scale(1.02);
+    clip-path: polygon(0 0, 0 0, 3% 15%, 0 30%, 4% 47%, 0 64%, 3% 83%, 0 100%, 0 70%, 0 34%);
     opacity: 0;
+    transform: rotate(var(--scratch-angle)) scale(1.025);
   }
 }
 .ticket-level a.is-selected { border-color: var(--caramel); background: var(--cream-deep); }
