@@ -128,12 +128,12 @@ const ticketGroups = computed(() => [
 ]);
 
 const leaderboard = [
-  { rank: '🥇', name: 'LuckyStar', score: '12 840 pts' },
-  { rank: '🥈', name: 'GoldenTouch', score: '9 620 pts' },
-  { rank: '🥉', name: 'TrèfleVert', score: '7 450 pts' },
-  { rank: '4', name: 'Chanceux', score: '5 180 pts' },
-  { rank: '5', name: 'ÉtoileFilante', score: '3 960 pts' },
-  { rank: '6', name: 'Vous', score: '2 450 pts', current: true }
+  { rank: '🥇', name: '', score: ' pts' },
+  { rank: '🥈', name: '', score: ' pts' },
+  { rank: '🥉', name: '', score: ' pts' },
+  { rank: '4', name: '', score: ' pts' },
+  { rank: '5', name: '', score: ' pts' },
+  { rank: '6', name: 'vous', score: ' pts', current: true }
 ];
 </script>
 
