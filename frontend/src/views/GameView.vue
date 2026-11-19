@@ -179,8 +179,7 @@ const leaderboard = [
   gap: 5px;
   color: #7b2f18;
   background: #fff4d9;
-  opacity: 0;
-  transition: opacity .15s ease;
+  opacity: 1;
 }
 .revealed-prize strong {
   font-size: clamp(3rem, 10vw, 5rem);
@@ -191,9 +190,6 @@ const leaderboard = [
   font-size: .8rem;
   font-weight: 900;
   letter-spacing: .18em;
-}
-.revealed-prize.is-visible {
-  opacity: 1;
 }
 .mini-ticket-art {
   display: block;
