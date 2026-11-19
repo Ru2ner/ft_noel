@@ -23,13 +23,20 @@
               <img
                 class="ticket-art ticket-cover"
                 :class="{ 'is-scratching': isScratching, 'is-scratched': isRevealed }"
+                :style="{ '--scratch-progress': scratchProgress + '%' }"
                 :src="selected.image"
                 :alt="'Couverture à gratter du ticket ' + selected.name"
-                @animationend="finishScratch"
               >
             </div>
           </div>
-          <p class="ticket-caption">{{ isRevealed ? selected.message : 'Clique sur un ticket pour le gratter.' }}</p>
+          <div v-if="!isRevealed" class="qte-panel" aria-live="polite">
+            <p class="qte-instruction">Enchaîne les touches dans le bon ordre !</p>
+            <div class="qte-sequence">
+              <span v-for="(key, index) in qteSequence" :key="index" class="qte-key" :class="{ 'is-done': index < currentStep, 'is-next': index === currentStep }">{{ key }}</span>
+            </div>
+            <p class="qte-feedback" :class="{ 'has-error': qteError }">{{ qteError ? 'Raté ! Recommence la séquence.' : currentStep + ' / ' + qteSequence.length + ' touches' }}</p>
+          </div>
+          <p class="ticket-caption">{{ isRevealed ? selected.message : 'Utilise ton clavier pour gratter le ticket.' }}</p>
         </section>
 
         <aside class="game-panel game-picker">
@@ -55,7 +62,7 @@
 </template>
 
 <script setup>
-import { computed, ref, nextTick } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import ticket1 from '../assets/tickets/ticket_1.JPG';
 import ticket2 from '../assets/tickets/ticket_2.JPG';
 import ticket3 from '../assets/tickets/ticket_3.JPG';
@@ -69,19 +76,52 @@ const tickets = [
 const selected = ref(tickets[2]);
 const isScratching = ref(false);
 const isRevealed = ref(false);
-async function selectTicket(ticket) {
-  selected.value = ticket;
-  isScratching.value = false;
-  isRevealed.value = false;
-  await nextTick();
-  isScratching.value = true;
+const qteKeys = ['A', 'S', 'D', 'F', 'J', 'K', 'L'];
+const qteSequence = ref(makeSequence());
+const currentStep = ref(0);
+const qteError = ref(false);
+const scratchProgress = computed(() => Math.round((currentStep.value / qteSequence.value.length) * 100));
+
+function makeSequence() {
+  return Array.from({ length: 6 }, () => qteKeys[Math.floor(Math.random() * qteKeys.length)]);
 }
 
-function finishScratch() {
-  if (!isScratching.value) return;
+function resetQte() {
+  qteSequence.value = makeSequence();
+  currentStep.value = 0;
+  qteError.value = false;
   isScratching.value = false;
-  isRevealed.value = true;
+  isRevealed.value = false;
 }
+
+function handleQteKeydown(event) {
+  if (isRevealed.value || event.repeat || event.ctrlKey || event.altKey || event.metaKey) return;
+  if (event.target instanceof HTMLElement && event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+  const pressedKey = event.key.toUpperCase();
+  if (!qteKeys.includes(pressedKey)) return;
+
+  if (pressedKey === qteSequence.value[currentStep.value]) {
+    qteError.value = false;
+    currentStep.value += 1;
+    isScratching.value = true;
+    if (currentStep.value === qteSequence.value.length) {
+      isRevealed.value = true;
+      isScratching.value = false;
+    }
+  } else {
+    currentStep.value = 0;
+    isScratching.value = false;
+    qteError.value = true;
+  }
+}
+
+function selectTicket(ticket) {
+  selected.value = ticket;
+  resetQte();
+}
+
+onMounted(() => window.addEventListener('keydown', handleQteKeydown));
+onUnmounted(() => window.removeEventListener('keydown', handleQteKeydown));
 
 const ticketGroups = computed(() => [
   { price: '5 €', label: 'Débutant', tickets: tickets.filter(t => t.group === '5 €') },
@@ -122,14 +162,12 @@ const leaderboard = [
   width: 100%;
   height: 100%;
   object-fit: fill;
-  transform-origin: left center;
-}
-.ticket-cover.is-scratching {
-  animation: scratch-cover 1.6s cubic-bezier(.45,.05,.7,.35) forwards;
+  clip-path: inset(0 0 0 var(--scratch-progress, 0%));
+  transition: clip-path .16s ease-out;
+  pointer-events: none;
 }
 .ticket-cover.is-scratched {
   visibility: hidden;
-  pointer-events: none;
 }
 .revealed-prize {
   position: absolute;
@@ -165,27 +203,57 @@ const leaderboard = [
   object-fit: cover;
   border-radius: 5px;
 }
-@keyframes scratch-cover {
-  0% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    opacity: 1;
-  }
-  18% {
-    clip-path: polygon(0 0, 82% 0, 91% 16%, 78% 31%, 90% 48%, 76% 65%, 86% 82%, 72% 100%, 0 100%);
-  }
-  40% {
-    clip-path: polygon(0 0, 59% 0, 68% 15%, 55% 32%, 70% 49%, 53% 66%, 66% 84%, 50% 100%, 0 100%);
-  }
-  65% {
-    clip-path: polygon(0 0, 31% 0, 40% 16%, 26% 33%, 42% 50%, 25% 67%, 37% 85%, 20% 100%, 0 100%);
-  }
-  100% {
-    clip-path: polygon(0 0, 0 0, 5% 17%, 0 33%, 6% 50%, 0 67%, 5% 84%, 0 100%);
-    opacity: 0;
-  }
+.qte-panel {
+  margin: 18px auto 8px;
+  text-align: center;
+}
+.qte-instruction {
+  margin: 0 0 10px;
+  color: var(--ink, #49372c);
+  font-weight: 700;
+}
+.qte-sequence {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.qte-key {
+  display: grid;
+  width: 38px;
+  height: 42px;
+  place-items: center;
+  border: 2px solid #c9b99e;
+  border-radius: 7px;
+  background: #fffaf0;
+  color: #5d4938;
+  font-size: 1rem;
+  font-weight: 900;
+  box-shadow: 0 3px 0 #c9b99e;
+}
+.qte-key.is-next {
+  border-color: var(--caramel, #b9783f);
+  background: #f7dfb9;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #b9783f;
+}
+.qte-key.is-done {
+  border-color: #64865c;
+  background: #e1efd9;
+  color: #365b32;
+  box-shadow: 0 2px 0 #64865c;
+}
+.qte-feedback {
+  margin: 12px 0 0;
+  color: #64865c;
+  font-size: .9rem;
+  font-weight: 700;
+}
+.qte-feedback.has-error {
+  color: #b33b2e;
 }
 .ticket-level a.is-selected { border-color: var(--caramel); background: var(--cream-deep); }
 @media (prefers-reduced-motion: reduce) {
-  .ticket-cover.is-scratching { animation-duration: .01ms; }
+  .ticket-cover { transition: none; }
 }
 </style>
