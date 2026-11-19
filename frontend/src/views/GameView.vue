@@ -11,7 +11,6 @@
         </aside>
 
         <section class="game-center scratch-center">
-          <p class="game-eyebrow">Ticket à la une</p>
           <h2 class="game-title">{{ selected.name }}</h2>
           <div class="scratch-stage">
             <div class="scratch-ticket">
@@ -30,13 +29,12 @@
             </div>
           </div>
           <div v-if="!isRevealed" class="qte-panel" aria-live="polite">
-            <p class="qte-instruction">Enchaîne les touches dans le bon ordre !</p>
+            <p class="qte-instruction">Qte2Fou</p>
             <div class="qte-sequence">
               <span v-for="(key, index) in qteSequence" :key="index" class="qte-key" :class="{ 'is-done': index < currentStep, 'is-next': index === currentStep }">{{ key }}</span>
             </div>
             <p class="qte-feedback" :class="{ 'has-error': qteError }">{{ qteError ? 'Raté ! Recommence la séquence.' : currentStep + ' / ' + qteSequence.length + ' touches' }}</p>
           </div>
-          <p class="ticket-caption">{{ isRevealed ? selected.message : 'Utilise ton clavier pour gratter le ticket.' }}</p>
         </section>
 
         <aside class="game-panel game-picker">
