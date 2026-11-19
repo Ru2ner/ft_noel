@@ -15,13 +15,7 @@
           <h2 class="game-title">{{ selected.name }}</h2>
           <div class="scratch-stage">
             <div class="scratch-ticket">
-              <div class="ticket-topline"><span>SCRATCH CLUB</span><span>{{ selected.price }}</span></div>
-              <div class="ticket-stars">✦ ✧ ✦</div>
-              <div class="ticket-title">{{ selected.title }}</div>
-              <div class="scratch-result">
-                <span v-for="(symbol, index) in selected.result" :key="index">{{ symbol }}</span>
-              </div>
-              <div class="ticket-bottom"><span>GRATTEZ ET DÉCOUVREZ</span><strong>{{ selected.price }}</strong></div>
+              <img class="ticket-art" :src="selected.image" :alt="'Ticket à gratter ' + selected.name">
               <div
                 class="scratch-foil"
                 :class="{ 'is-scratching': isScratching, 'is-revealed': isRevealed }"
@@ -47,7 +41,7 @@
               :class="{ 'is-selected': selected.name === ticket.name }"
               @click.prevent="selectTicket(ticket)"
             >
-              <span class="mini-ticket" :class="ticket.color">{{ ticket.symbol }}</span>
+              <img class="mini-ticket-art" :src="ticket.image" :alt="'Aperçu ' + ticket.name">
               <span><strong>{{ ticket.name }}</strong><small>{{ ticket.description }}</small></span>
             </a>
           </section>
@@ -60,11 +54,14 @@
 
 <script setup>
 import { computed, ref, nextTick } from 'vue';
+import ticket1 from '../assets/tickets/ticket_1.JPG';
+import ticket2 from '../assets/tickets/ticket_2.JPG';
+import ticket3 from '../assets/tickets/ticket_3.JPG';
 
 const tickets = [
-  { name: 'Étoile Filante', title: 'ÉTOILE\nFILANTE', price: '5 €', group: '5 €', symbol: '✦', color: 'mini-ticket-blue', description: 'À vous la chance', result: ['★', '★', '★'], message: 'Bravo ! Trois étoiles : 10 points fictifs.' },
-  { name: 'Diamant Rouge', title: 'DIAMANT\nROUGE', price: '10 €', group: '10 €', symbol: '♦', color: 'mini-ticket-red', description: 'Un éclat de fortune', result: ['♦', '♦', '♦'], message: 'Magnifique ! Trois diamants : 25 points fictifs.' },
-  { name: 'Royale', title: 'ROYALE', price: '20 €', group: '20 €', symbol: '♛', color: 'mini-ticket-purple', description: 'Le grand format', result: ['♛', '♛', '♛'], message: 'Royal ! Trois couronnes : 50 points fictifs.' }
+  { name: 'Étoile Filante', price: '5 €', group: '5 €', image: ticket1, description: 'À vous la chance', message: 'Bravo ! Trois étoiles : 10 points fictifs.' },
+  { name: 'Diamant Rouge', price: '10 €', group: '10 €', image: ticket2, description: 'Un éclat de fortune', message: 'Magnifique ! Trois diamants : 25 points fictifs.' },
+  { name: 'Royale', price: '20 €', group: '20 €', image: ticket3, description: 'Le grand format', message: 'Royal ! Trois couronnes : 50 points fictifs.' }
 ];
 
 const selected = ref(tickets[2]);
@@ -107,49 +104,25 @@ const leaderboard = [
 <style scoped>
 .scratch-ticket {
   position: relative;
-  display: flex;
   width: min(100%, 330px);
-  min-height: 220px;
-  flex-direction: column;
-  justify-content: space-between;
   overflow: hidden;
-  padding: 17px 19px;
-  border: 5px double #f7d98e;
   border-radius: 13px;
-  background: linear-gradient(140deg, #9b552b, #d99a52 48%, #814321);
-  box-shadow: 0 13px 22px rgba(75, 45, 32, .24), inset 0 0 0 2px rgba(255, 245, 210, .25);
-  color: #fff7dc;
-  text-align: center;
+  background: transparent;
+  box-shadow: 0 13px 22px rgba(75, 45, 32, .24);
 }
-.ticket-topline, .ticket-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: .66rem;
-  font-weight: 700;
-  letter-spacing: .08em;
+.ticket-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: inherit;
 }
-.ticket-title {
-  color: #fff2bd;
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 900;
-  line-height: .95;
-  letter-spacing: .06em;
-  text-shadow: 0 3px 0 #78401f, 0 5px 8px rgba(60, 30, 10, .25);
-  white-space: pre-line;
-}
-.ticket-stars { color: #ffe7a2; font-size: 1.25rem; }
-.ticket-bottom { font-size: .58rem; letter-spacing: .02em; }
-.ticket-bottom strong { color: #fff2bd; font-size: 1rem; }
-.scratch-result {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  padding: 7px 0;
-  color: #fff4c9;
-  font-size: 2rem;
-  text-shadow: 0 2px 2px rgba(60, 30, 10, .35);
+.mini-ticket-art {
+  display: block;
+  width: 58px;
+  height: 42px;
+  flex: 0 0 58px;
+  object-fit: cover;
+  border-radius: 5px;
 }
 .scratch-foil {
   position: absolute;
