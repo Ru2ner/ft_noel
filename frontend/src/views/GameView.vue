@@ -66,9 +66,9 @@ import ticket2 from '../assets/tickets/ticket_2.JPG';
 import ticket3 from '../assets/tickets/ticket_3.JPG';
 
 const tickets = [
-  { name: 'Étoile Filante', price: '5 €', group: '5 €', qteLength: 4, image: ticket1, gain: '10', description: 'À vous la chance', message: 'Bravo ! Vous gagnez 10 points fictifs.' },
-  { name: 'Diamant Rouge', price: '10 €', group: '10 €', qteLength: 7, image: ticket2, gain: '25', description: 'Un éclat de fortune', message: 'Magnifique ! Vous gagnez 25 points fictifs.' },
-  { name: 'Royale', price: '20 €', group: '20 €', qteLength: 10, image: ticket3, gain: '50', description: 'Le grand format', message: 'Royal ! Vous gagnez 50 points fictifs.' }
+  { name: 'Étoile Filante', price: '5 €', group: '5 €', qteLength: 4, image: ticket1, gain: '10', description: '', message: 'Bravo ! Vous gagnez 10 points fictifs.' },
+  { name: 'Diamant Rouge', price: '10 €', group: '10 €', qteLength: 7, image: ticket2, gain: '25', description: '', message: 'Magnifique ! Vous gagnez 25 points fictifs.' },
+  { name: 'Royale', price: '20 €', group: '20 €', qteLength: 10, image: ticket3, gain: '50', description: '', message: 'Royal ! Vous gagnez 50 points fictifs.' }
 ];
 
 const selected = ref(tickets[2]);
