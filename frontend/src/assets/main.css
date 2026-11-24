@@ -753,3 +753,183 @@ button:disabled { cursor: wait; opacity: .65; transform: none; }
   body { padding: 16px 12px 32px; }
   .auth-page, .content-panel { margin: 14px auto; }
 }
+
+
+/* Adaptation responsive globale */
+.app-shell,
+.game-page,
+.game-page .game-shell,
+.content-panel,
+.auth-page {
+	min-width: 0;
+}
+
+@media (max-width: 1000px) {
+	.scratch-page .game-layout {
+		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+		gap: 16px;
+	}
+
+	.scratch-page .game-panel {
+		padding: 15px;
+	}
+
+	.scratch-page .game-picker .ticket-level {
+		width: calc(33.333% - 8px);
+		margin-right: 6px;
+	}
+
+	.scratch-page .leader-row {
+		grid-template-columns: 24px minmax(0, 1fr) auto;
+		gap: 6px;
+	}
+
+	.scratch-page .leader-score {
+		white-space: normal;
+		text-align: right;
+	}
+}
+
+@media (max-width: 760px) {
+	body {
+		padding: 22px 16px 36px;
+	}
+
+	.scratch-page .game-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.scratch-page .game-picker {
+		grid-column: auto;
+	}
+
+	.scratch-page .game-picker .ticket-level {
+		display: block;
+		width: 100%;
+		margin: 12px 0 0;
+	}
+
+	.scratch-page .game-center {
+		min-height: 0;
+	}
+
+	.scratch-page .leaderboard {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: 16px;
+	}
+
+	.scratch-page .leaderboard .panel-heading,
+	.scratch-page .leaderboard .leaderboard-kicker {
+		grid-column: 1 / -1;
+	}
+
+	.scratch-page .leader-row {
+		min-width: 0;
+	}
+
+	.scratch-page .leader-row strong {
+		overflow-wrap: anywhere;
+	}
+}
+
+@media (max-width: 620px) {
+	body {
+		padding: 16px 12px 28px;
+	}
+
+	.app-shell {
+		width: 100%;
+	}
+
+	.game-page {
+		padding: 0;
+	}
+
+	.scratch-page .game-layout {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 14px;
+	}
+
+	.scratch-page .game-panel,
+	.scratch-page .game-center {
+		padding: 16px 13px;
+	}
+
+	.scratch-page .leaderboard {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.scratch-page .leaderboard .panel-heading,
+	.scratch-page .leaderboard .leaderboard-kicker {
+		grid-column: auto;
+	}
+
+	.scratch-page .scratch-stage {
+		min-height: 0;
+		margin: 14px 0 10px;
+		padding: 14px 10px;
+	}
+
+	.scratch-page .scratch-ticket {
+		width: min(100%, 330px);
+	}
+
+	.scratch-page .qte-panel {
+		width: 100%;
+	}
+
+	.scratch-page .qte-sequence {
+		gap: 7px;
+	}
+
+	.scratch-page .qte-key {
+		width: 34px;
+		height: 38px;
+	}
+
+	.auth-page,
+	.content-panel {
+		width: 100%;
+		margin: 14px auto;
+		padding: 20px 16px;
+	}
+
+	.home-actions,
+	.settings-actions {
+		flex-direction: column;
+	}
+
+	.home-actions .action-link,
+	.settings-actions button {
+		width: 100%;
+		text-align: center;
+	}
+}
+
+@media (max-width: 380px) {
+	body {
+		padding-right: 10px;
+		padding-left: 10px;
+	}
+
+	.scratch-page .game-panel,
+	.scratch-page .game-center {
+		padding: 14px 10px;
+	}
+
+	.scratch-page .qte-sequence {
+		gap: 6px;
+	}
+
+	.scratch-page .qte-key {
+		width: 30px;
+		height: 36px;
+		font-size: .9rem;
+	}
+
+	.auth-page h1,
+	.content-panel h1 {
+		font-size: 1.8rem;
+	}
+}
